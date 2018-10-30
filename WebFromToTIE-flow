@@ -1,15 +1,15 @@
 [
     {
-        "id": "4cf1b8ba.a3034",
+        "id": "d1aa91a9.c688f",
         "type": "tab",
         "label": "TIE File Reputation",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "1e466fe6.c31498",
+        "id": "37d7c501.d76a72",
         "type": "http in",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "",
         "url": "/tie/setfile",
         "method": "get",
@@ -19,14 +19,14 @@
         "y": 60,
         "wires": [
             [
-                "b1a0bacf.9a288"
+                "e0335e0d.d1b2f"
             ]
         ]
     },
     {
-        "id": "b1a0bacf.9a288",
+        "id": "e0335e0d.d1b2f",
         "type": "node-red-contrib-httpauth",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "TIE Authentication",
         "file": "",
         "cred": "",
@@ -39,14 +39,14 @@
         "y": 60,
         "wires": [
             [
-                "d6672f59.aef918"
+                "28d94b71.1dc40c"
             ]
         ]
     },
     {
-        "id": "d6672f59.aef918",
+        "id": "28d94b71.1dc40c",
         "type": "template",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "Web Form",
         "field": "payload",
         "fieldType": "msg",
@@ -58,14 +58,14 @@
         "y": 60,
         "wires": [
             [
-                "40293722.07a7f"
+                "6f81b806.52a3f8"
             ]
         ]
     },
     {
-        "id": "40293722.07a7f",
+        "id": "6f81b806.52a3f8",
         "type": "http response",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "",
         "statusCode": "",
         "headers": {},
@@ -74,9 +74,9 @@
         "wires": []
     },
     {
-        "id": "d3784504.925d98",
+        "id": "8f5691ab.bf22",
         "type": "http in",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "",
         "url": "/tie/setfilerep",
         "method": "post",
@@ -86,33 +86,33 @@
         "y": 140,
         "wires": [
             [
-                "c3687c44.99d548"
+                "b3a4591e.5cbbd"
             ]
         ]
     },
     {
-        "id": "65a57da5.6d3c14",
+        "id": "1f6e4969.11bef7",
         "type": "template",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<html>  \n  <head>\n  </head>\n  <body>\n    <h1>Thanks for signing up!</h1>\n    <p>You're all set.</p>\n    Filename: {{ payload.filename }}<br>\n    \n    MD5: {{ payload.md5 }}<br>\n    SHA1: {{ payload.sha1 }}<br>\n    SHA256: {{ payload.sha256 }}\n  </body>\n</html>  ",
+        "template": "<html>  \n  <head>\n  </head>\n  <body>\n    <h1>File Reputation Set!</h1>\n    Filename: {{ payload.filename }}<br>\n    \n    MD5: {{ payload.md5 }}<br>\n    SHA1: {{ payload.sha1 }}<br>\n    SHA256: {{ payload.sha256 }}\n  </body>\n</html>  ",
         "output": "str",
         "x": 420,
         "y": 140,
         "wires": [
             [
-                "c229e67b.e43e6"
+                "7e7dff0d.b12e8"
             ]
         ]
     },
     {
-        "id": "c229e67b.e43e6",
+        "id": "7e7dff0d.b12e8",
         "type": "http response",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "",
         "statusCode": "",
         "headers": {},
@@ -121,9 +121,9 @@
         "wires": []
     },
     {
-        "id": "c3687c44.99d548",
+        "id": "b3a4591e.5cbbd",
         "type": "function",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "Validate MD5 Hash",
         "func": "var payload = msg.payload;\nif (payload.md5.match(/^[a-fA-F0-9]{32}$/g))\n{\n    msg.payload.isMD5 = true;\n}\nelse\n{\n    msg.payload.isMD5 = false;\n    msg.payload.md5 = \"\";\n}\n\nif (payload.sha1.match(/^[a-fA-F0-9]{40}$/g))\n{\n    msg.payload.isSHA1 = true;\n}\nelse\n{\n    msg.payload.isSHA1 = false;\n    msg.payload.sha1 = \"\";\n}\n\nif (payload.sha256.match(/^[a-fA-F0-9]{64}$/g))\n{\n    msg.payload.isSHA256 = true;\n}\nelse\n{\n    msg.payload.isSHA256 = false;\n    msg.payload.sha256 = \"\";\n}\nreturn msg;\n\n",
         "outputs": 1,
@@ -132,15 +132,15 @@
         "y": 240,
         "wires": [
             [
-                "65a57da5.6d3c14",
-                "9aa10c52.888f28"
+                "1f6e4969.11bef7",
+                "8ed73bfd.29c328"
             ]
         ]
     },
     {
-        "id": "a6f9d38c.c54778",
+        "id": "af4af34a.e36f98",
         "type": "inject",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "",
         "topic": "",
         "payload": "{\"md5\":\"0d599f0ec05c3bda8c3b8a68c32a1b47\",\"sha1\":\"cf23df2207d99a74fbe169e3eba035e633b65d94\",\"sha256\":\"384d53391d5bbfc29016872dacded77ce1b3260fe901b3879e326a6a08306679\"}",
@@ -153,14 +153,14 @@
         "y": 260,
         "wires": [
             [
-                "c3687c44.99d548"
+                "b3a4591e.5cbbd"
             ]
         ]
     },
     {
-        "id": "9aa10c52.888f28",
+        "id": "8ed73bfd.29c328",
         "type": "change",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "Set Hashes",
         "rules": [
             {
@@ -176,32 +176,32 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 310,
-        "y": 340,
+        "x": 154,
+        "y": 342,
         "wires": [
             [
-                "6731e8c.fb85e18"
+                "d75ab0af.77d308"
             ]
         ]
     },
     {
-        "id": "8bac963c.067b68",
+        "id": "537605c9.771d2c",
         "type": "debug",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "true",
-        "x": 610,
-        "y": 340,
+        "x": 478,
+        "y": 355,
         "wires": []
     },
     {
-        "id": "6731e8c.fb85e18",
+        "id": "c2ea4d09.fcf178",
         "type": "change",
-        "z": "4cf1b8ba.a3034",
+        "z": "d1aa91a9.c688f",
         "name": "Comment",
         "rules": [
             {
@@ -217,36 +217,81 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 480,
-        "y": 340,
+        "x": 160,
+        "y": 491,
         "wires": [
             [
-                "8bac963c.067b68",
-                "3edab595.725cca"
+                "537605c9.771d2c",
+                "a947e996.2275f8"
             ]
         ]
     },
     {
-        "id": "3edab595.725cca",
-        "type": "dxl-tie-set-certificate-reputation",
-        "z": "4cf1b8ba.a3034",
-        "name": "",
-        "client": "2d9cf81c.0f838",
-        "trustLevel": "",
-        "comment": "",
-        "x": 650,
-        "y": 420,
+        "id": "eb419042.52d7e",
+        "type": "change",
+        "z": "d1aa91a9.c688f",
+        "name": "TrustLevel",
+        "rules": [
+            {
+                "t": "set",
+                "p": "trustLevel",
+                "pt": "msg",
+                "to": "payload.trustLevel",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 157.5,
+        "y": 444,
         "wires": [
-            []
+            [
+                "c2ea4d09.fcf178"
+            ]
         ]
     },
     {
-        "id": "2d9cf81c.0f838",
-        "type": "dxl-client",
-        "z": "",
-        "configFile": "/data/dxl/dxlclient.config",
+        "id": "d75ab0af.77d308",
+        "type": "change",
+        "z": "d1aa91a9.c688f",
+        "name": "FileName",
+        "rules": [
+            {
+                "t": "set",
+                "p": "fileName",
+                "pt": "msg",
+                "to": "payload.fileName",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 158.5,
+        "y": 394,
+        "wires": [
+            [
+                "eb419042.52d7e"
+            ]
+        ]
+    },
+    {
+        "id": "a947e996.2275f8",
+        "type": "dxl-tie-set-file-reputation",
+        "z": "d1aa91a9.c688f",
         "name": "",
-        "keepAliveInterval": "1800",
-        "reconnectDelay": "1"
+        "client": "",
+        "trustLevel": "",
+        "comment": "",
+        "x": 508.5,
+        "y": 463,
+        "wires": [
+            []
+        ]
     }
 ]
