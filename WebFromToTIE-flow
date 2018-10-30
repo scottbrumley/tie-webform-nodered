@@ -1,0 +1,252 @@
+[
+    {
+        "id": "4cf1b8ba.a3034",
+        "type": "tab",
+        "label": "TIE File Reputation",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1e466fe6.c31498",
+        "type": "http in",
+        "z": "4cf1b8ba.a3034",
+        "name": "",
+        "url": "/tie/setfile",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 60,
+        "wires": [
+            [
+                "b1a0bacf.9a288"
+            ]
+        ]
+    },
+    {
+        "id": "b1a0bacf.9a288",
+        "type": "node-red-contrib-httpauth",
+        "z": "4cf1b8ba.a3034",
+        "name": "TIE Authentication",
+        "file": "",
+        "cred": "",
+        "authType": "Basic",
+        "realm": "",
+        "username": "settie",
+        "password": "settie",
+        "hashed": false,
+        "x": 350,
+        "y": 60,
+        "wires": [
+            [
+                "d6672f59.aef918"
+            ]
+        ]
+    },
+    {
+        "id": "d6672f59.aef918",
+        "type": "template",
+        "z": "4cf1b8ba.a3034",
+        "name": "Web Form",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>  \n  <head>\n  </head>\n  <body>\n    <form action=\"/tie/setfilerep\" method=\"post\">\n      <h1>Set File Reputation</h1>\n      <label for=\"filename\">Filename:</label>\n      <input type=\"fileName\" name=\"fileName\" />\n      <br>\n      <label for=\"md5\">MD5 Hash:</label>\n      <input type=\"md5\" name=\"md5\" />\n      <br>\n      <label for=\"sha1\">SHA1 Hash:</label>\n      <input type=\"sha1\" name=\"sha1\" />\n      <br>\n      <label for=\"sha256\">SHA256 Hash:</label>\n      <input type=\"sha256\" name=\"sha256\" />\n      <br>\n      \n      File Reputation:\n      <select name=\"trustLevel\">\n        <option value=\"99\">Known_Trusted</option>\n        <option value=\"85\">Most_Likely_Trusted</option>\n        <option value=\"70\">Might_Be_Trusted</option>\n        <option value=\"50\">Unknown</option>\n        <option value=\"30\">Might_Be_Malicious</option>\n        <option value=\"15\">Most_Likely_Malicious</option>\n        <option value=\"1\" selected=\"selected\">Known_Malicious</option>\n        <option value=\"0\">Not_Set</option>\n      </select>\n      <br>\n       <input type=\"submit\" />\n    </form>\n  </body>\n</html>  ",
+        "output": "str",
+        "x": 570,
+        "y": 60,
+        "wires": [
+            [
+                "40293722.07a7f"
+            ]
+        ]
+    },
+    {
+        "id": "40293722.07a7f",
+        "type": "http response",
+        "z": "4cf1b8ba.a3034",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 780,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d3784504.925d98",
+        "type": "http in",
+        "z": "4cf1b8ba.a3034",
+        "name": "",
+        "url": "/tie/setfilerep",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "c3687c44.99d548"
+            ]
+        ]
+    },
+    {
+        "id": "65a57da5.6d3c14",
+        "type": "template",
+        "z": "4cf1b8ba.a3034",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>  \n  <head>\n  </head>\n  <body>\n    <h1>Thanks for signing up!</h1>\n    <p>You're all set.</p>\n    Filename: {{ payload.filename }}<br>\n    \n    MD5: {{ payload.md5 }}<br>\n    SHA1: {{ payload.sha1 }}<br>\n    SHA256: {{ payload.sha256 }}\n  </body>\n</html>  ",
+        "output": "str",
+        "x": 420,
+        "y": 140,
+        "wires": [
+            [
+                "c229e67b.e43e6"
+            ]
+        ]
+    },
+    {
+        "id": "c229e67b.e43e6",
+        "type": "http response",
+        "z": "4cf1b8ba.a3034",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 600,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "c3687c44.99d548",
+        "type": "function",
+        "z": "4cf1b8ba.a3034",
+        "name": "Validate MD5 Hash",
+        "func": "var payload = msg.payload;\nif (payload.md5.match(/^[a-fA-F0-9]{32}$/g))\n{\n    msg.payload.isMD5 = true;\n}\nelse\n{\n    msg.payload.isMD5 = false;\n    msg.payload.md5 = \"\";\n}\n\nif (payload.sha1.match(/^[a-fA-F0-9]{40}$/g))\n{\n    msg.payload.isSHA1 = true;\n}\nelse\n{\n    msg.payload.isSHA1 = false;\n    msg.payload.sha1 = \"\";\n}\n\nif (payload.sha256.match(/^[a-fA-F0-9]{64}$/g))\n{\n    msg.payload.isSHA256 = true;\n}\nelse\n{\n    msg.payload.isSHA256 = false;\n    msg.payload.sha256 = \"\";\n}\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 240,
+        "wires": [
+            [
+                "65a57da5.6d3c14",
+                "9aa10c52.888f28"
+            ]
+        ]
+    },
+    {
+        "id": "a6f9d38c.c54778",
+        "type": "inject",
+        "z": "4cf1b8ba.a3034",
+        "name": "",
+        "topic": "",
+        "payload": "{\"md5\":\"0d599f0ec05c3bda8c3b8a68c32a1b47\",\"sha1\":\"cf23df2207d99a74fbe169e3eba035e633b65d94\",\"sha256\":\"384d53391d5bbfc29016872dacded77ce1b3260fe901b3879e326a6a08306679\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 90,
+        "y": 260,
+        "wires": [
+            [
+                "c3687c44.99d548"
+            ]
+        ]
+    },
+    {
+        "id": "9aa10c52.888f28",
+        "type": "change",
+        "z": "4cf1b8ba.a3034",
+        "name": "Set Hashes",
+        "rules": [
+            {
+                "t": "set",
+                "p": "hashes",
+                "pt": "msg",
+                "to": "{\t   \"md5\":msg.payload.md5,\t   \"sha1\":msg.payload.sha1,\t   \"sha256\":msg.payload.sha256\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 310,
+        "y": 340,
+        "wires": [
+            [
+                "6731e8c.fb85e18"
+            ]
+        ]
+    },
+    {
+        "id": "8bac963c.067b68",
+        "type": "debug",
+        "z": "4cf1b8ba.a3034",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 610,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "6731e8c.fb85e18",
+        "type": "change",
+        "z": "4cf1b8ba.a3034",
+        "name": "Comment",
+        "rules": [
+            {
+                "t": "set",
+                "p": "comment",
+                "pt": "msg",
+                "to": "Reputation set via OpenDXL",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 340,
+        "wires": [
+            [
+                "8bac963c.067b68",
+                "3edab595.725cca"
+            ]
+        ]
+    },
+    {
+        "id": "3edab595.725cca",
+        "type": "dxl-tie-set-certificate-reputation",
+        "z": "4cf1b8ba.a3034",
+        "name": "",
+        "client": "2d9cf81c.0f838",
+        "trustLevel": "",
+        "comment": "",
+        "x": 650,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2d9cf81c.0f838",
+        "type": "dxl-client",
+        "z": "",
+        "configFile": "/data/dxl/dxlclient.config",
+        "name": "",
+        "keepAliveInterval": "1800",
+        "reconnectDelay": "1"
+    }
+]
