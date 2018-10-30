@@ -99,10 +99,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<html>  \n  <head>\n  </head>\n  <body>\n    <h1>File Reputation Set!</h1>\n    Filename: {{ payload.filename }}<br>\n    \n    MD5: {{ payload.md5 }}<br>\n    SHA1: {{ payload.sha1 }}<br>\n    SHA256: {{ payload.sha256 }}\n  </body>\n</html>  ",
+        "template": "<html>  \n  <head>\n  </head>\n  <body>\n    <h1>File Reputation Set!</h1>\n    <strong>Filename:</strong> {{ payload.fileName }}<br>\n    \n    <strong>MD5:</strong> {{ payload.md5 }}<br>\n    <strong>SHA1:</strong> {{ payload.sha1 }}<br>\n    <strong>SHA256:</strong> {{ payload.sha256 }}<br>\n    <strong>Reputation Score:</strong> {{ payload.trustLevel }}\n  </body>\n</html>  ",
         "output": "str",
-        "x": 420,
-        "y": 140,
+        "x": 542.2222290039062,
+        "y": 179.99993896484375,
         "wires": [
             [
                 "7e7dff0d.b12e8"
@@ -116,8 +116,8 @@
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 600,
-        "y": 140,
+        "x": 751.1111450195312,
+        "y": 177.77777099609375,
         "wires": []
     },
     {
@@ -132,8 +132,8 @@
         "y": 240,
         "wires": [
             [
-                "1f6e4969.11bef7",
-                "8ed73bfd.29c328"
+                "8ed73bfd.29c328",
+                "1f6e4969.11bef7"
             ]
         ]
     },
